@@ -31,18 +31,24 @@ function Button({ children, onClick }) {
 
 export default function App() {
   const [friends, setFriends] = useState(initialFriends);
-  const [showAddReiend, SetShowAddReiend] = useState(false);
+  const [showAddFriend, SetShowAddFriend] = useState(false);
 
-  function handleShowAddReiend() {
-    SetShowAddReiend((show) => !show);
+  function handleShowAddFriend() {
+    SetShowAddFriend((show) => !show);
   }
+
+  function handleAddFriend(friend) {
+    setFriends((friends) => [...friends, friend]);
+    SetShowAddFriend(false);
+  }
+
   return (
     <div className="app">
       <div className="sidebar">
-        <FrendsList friends={friends} />
-        {showAddReiend && <FormAddFreiend />}
-        <Button onClick={handleShowAddReiend}>
-          {showAddReiend ? "Close" : "Add freind"}
+        <FriendsList friends={friends} />
+        {showAddFriend && <FormAddFriend onAddFriend={handleAddFriend} />}
+        <Button onClick={handleShowAddFriend}>
+          {showAddFriend ? "Close" : "Add freind"}
         </Button>
       </div>
 
@@ -51,7 +57,8 @@ export default function App() {
   );
 }
 
-function FrendsList({ friends }) {
+function FriendsList({ friends }) {
+  console.log(friends);
   return (
     <ul>
       {friends.map((friend) => (
@@ -85,9 +92,9 @@ function Friend({ friend }) {
   );
 }
 
-function FormAddFreiend() {
+function FormAddFriend({ onAddFriend }) {
   const [name, setName] = useState("");
-  const [image, setImage] = useState("https://i.pravatar.cc/48?u=499476");
+  const [image, setImage] = useState("https://i.pravatar.cc/48");
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -99,12 +106,14 @@ function FormAddFreiend() {
       id,
       name,
       image: `${image}?=${id}`,
-      alance: 0,
+      balance: 0,
     };
-    console.log(newFriend);
+
+    // console.log(newFriend);
+    onAddFriend(newFriend);
 
     setName("");
-    setImage("https://i.pravatar.cc/48?u=499476");
+    setImage("https://i.pravatar.cc/48");
   }
   return (
     <form className="form-add-friend" onSubmit={handleSubmit}>
