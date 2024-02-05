@@ -109,7 +109,6 @@ function FormAddFriend({ onAddFriend }) {
       balance: 0,
     };
 
-    // console.log(newFriend);
     onAddFriend(newFriend);
 
     setName("");
